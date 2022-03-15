@@ -1,0 +1,59 @@
+#%RAML 0.8
+title: Custom API
+version: v1
+baseUri: https://custom.api.com
+mediaType:  application/json
+/users:
+  displayName: Users
+  get:
+    description: Get all the users.
+    responses:
+      200:
+        body:
+          application/json:
+            schema: users.User[]
+  /{userId}:
+    displayName: User
+    uriParameters:
+      userId:
+        displayName: User ID
+        type: integer
+        required: true
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              schema: users.User
+  /me:
+    displayName: Current user
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              schema: users.User
+    /advanced:
+      displayName: Current advanced user
+      get:
+        responses:
+          200:
+            body:
+              application/json:
+                schema: users.AdvancedUser
+/customers:
+  displayName: Customers
+  get:
+    description: Get all the customers.
+    responses:
+      200:
+        body:
+          application/json:
+            schema: customers.Customer[]
+schemas:
+    -
+        customers.Customer: !include ../json/customers/Customer.json
+        customers.Customer[]: !include ../json/customers/Customer[].json
+        users.AdvancedUser: !include ../json/users/AdvancedUser.json
+        users.User: !include ../json/users/User.json
+        users.User[]: !include ../json/users/User[].json
