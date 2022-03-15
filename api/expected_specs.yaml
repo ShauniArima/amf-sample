@@ -148,19 +148,5 @@ components:
             description: Customer's company
             type: string
           user:
-            $ref: "#/components/schemas/user"
+            $ref: "#/components/schemas/users.User"
           name: {}
-    user:
-      title: User
-      description: A simple user
-      type: object
-      additionalProperties: true
-      required:
-        - name
-      properties:
-        id:
-          description: User ID
-          type: integer
-        name:
-          description: User name
-          type: string
