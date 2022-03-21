@@ -22,3 +22,10 @@ jobs:
         cache: 'yarn'
     - run: yarn install --frozen-lockfile
     - run: yarn test
+    - name: Test Report
+      uses: dorny/test-reporter@v1.5.0
+      if: success() || failure()
+      with:
+        name: Jest Tests
+        path: reports/jest-*.xml
+        reporter: jest-junit
