@@ -1,0 +1,47 @@
+#%RAML 0.8
+title: Custom API
+version: v1
+baseUri: https://custom.api.com
+mediaType:  application/json
+traits:
+    - responseMessage:
+        responses:
+            200?:
+                body:
+                    application/json:
+                        example: |
+                            {"message": "Data created"}
+    - traceable:
+        headers:
+            X-Id:
+                description: |
+                    This is the id of the transaction.
+        responses:
+            200?:
+                headers:
+                    X-Id:
+                        description: |
+                            This is the id of the transaction.
+            400?:
+                headers:
+                    X-Id:
+                        description: |
+                            This is the id of the transaction.
+            500?:
+                headers:
+                    X-Id:
+                        description: |
+                            This is the id of the transaction.
+/albums:
+    is: [responseMessage,traceable]
+    displayName: Albums
+    post:
+        description: Create a new album.
+        body:
+            application/json:
+            example: |
+                {"AlbumID": 1, "AlbumName": "German Whip"}
+        responses:
+            200: 
+                description: |
+                    Create a new album using the given parameters.

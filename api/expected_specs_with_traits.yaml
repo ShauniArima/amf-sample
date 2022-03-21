@@ -1,0 +1,43 @@
+openapi: 3.0.0
+info:
+  title: Custom API
+  version: v1
+paths:
+  /albums:
+    x-amf-displayName: Albums
+    post:
+      description: Create a new album.
+      parameters:
+        -
+          name: X-Id
+          description: |
+            This is the id of the transaction.
+          in: header
+          schema:
+            description: |
+              This is the id of the transaction.
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+      responses:
+        "200":
+          description: |
+            Create a new album using the given parameters.
+          headers:
+            X-Id:
+              description: |
+                This is the id of the transaction.
+              schema:
+                description: |
+                  This is the id of the transaction.
+                type: string
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Data created
+      servers:
+        -
+          url: https://custom.api.com
