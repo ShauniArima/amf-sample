@@ -1,4 +1,4 @@
-import { convert } from "./converter";
+import { convert, convertWithoutValidation } from "./converter";
 import fs from "fs";
 
 
@@ -15,7 +15,13 @@ test("should correctly resolve traits", async () => {
 
     const expectedSpecs = fs.readFileSync(`api/expected_specs_with_traits.yaml`).toString();
 
-    console.log(convertedSpecs)
+    expect(convertedSpecs).toStrictEqual(expectedSpecs);
+});
+
+test("should correctly resolve traits without validation", async () => {
+    const convertedSpecs = await convertWithoutValidation("file://api/raml/api_with_traits.raml");
+
+    const expectedSpecs = fs.readFileSync(`api/expected_specs_with_traits.yaml`).toString();
 
     expect(convertedSpecs).toStrictEqual(expectedSpecs);
 });

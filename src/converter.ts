@@ -12,3 +12,15 @@ export const convert = async (pathToSpecifications: string) => {
 
     return rendered;
 }
+
+export const convertWithoutValidation = async (pathToSpecifications: string) => {
+    const raml08Client = RAMLConfiguration.RAML08().baseUnitClient();
+    const oas30Client = OASConfiguration.OAS30().baseUnitClient();
+    
+    const parseResult: AMFDocumentResult = await raml08Client.parseDocument(pathToSpecifications);
+
+    const transformResult: AMFResult = oas30Client.transform(parseResult.baseUnit, PipelineId.Compatibility);
+    const rendered: string = oas30Client.render(transformResult.baseUnit, "application/yaml");
+
+    return rendered;
+}
