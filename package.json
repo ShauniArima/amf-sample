@@ -21,7 +21,7 @@
   "scripts": {
     "build": "tsc",
     "start": "ts-node converter.ts",
-    "test": "jest --ci --reporters=default --reporters=jest-Junit"
+    "test": "jest"
   },
   "jest-junit": {
     "outputDirectory": "reports",
