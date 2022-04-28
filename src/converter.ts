@@ -1,26 +1,20 @@
-import { OASConfiguration, RAMLConfiguration, AMFDocumentResult, AMFValidationReport, AMFResult, PipelineId } from "amf-client-js";
+import { OASConfiguration, RAMLConfiguration, AMFDocumentResult, AMFValidationReport, AMFResult, PipelineId, AMFBaseUnitClient } from "amf-client-js";
 
-export const convert = async (pathToSpecifications: string) => {
-    const raml08Client = RAMLConfiguration.RAML08().baseUnitClient();
-    const oas30Client = OASConfiguration.OAS30().baseUnitClient();
-    
-    const parseResult: AMFDocumentResult = await raml08Client.parseDocument(pathToSpecifications);
-    const validationReport: AMFValidationReport = await raml08Client.validate(parseResult.document);
+export const convert = (fromClient: AMFBaseUnitClient, toClient: AMFBaseUnitClient) => async (pathToSpecifications: string): Promise<string> => {
+    const parseResult: AMFDocumentResult = await fromClient.parseDocument(pathToSpecifications);
+    const validationReport: AMFValidationReport = await fromClient.validate(parseResult.document);
 
-    const transformResult: AMFResult = oas30Client.transform(parseResult.baseUnit, PipelineId.Compatibility);
-    const rendered: string = oas30Client.render(transformResult.baseUnit, "application/yaml");
+    const transformResult: AMFResult = toClient.transform(parseResult.baseUnit, PipelineId.Compatibility);
+    const rendered: string = toClient.render(transformResult.baseUnit, "application/yaml");
 
     return rendered;
 }
 
-export const convertWithoutValidation = async (pathToSpecifications: string) => {
-    const raml08Client = RAMLConfiguration.RAML08().baseUnitClient();
-    const oas30Client = OASConfiguration.OAS30().baseUnitClient();
-    
-    const parseResult: AMFDocumentResult = await raml08Client.parseDocument(pathToSpecifications);
+export const convertWithoutValidation = (fromClient: AMFBaseUnitClient, toClient: AMFBaseUnitClient) => async (pathToSpecifications: string): Promise<string> => {
+    const parseResult: AMFDocumentResult = await fromClient.parseDocument(pathToSpecifications);
 
-    const transformResult: AMFResult = oas30Client.transform(parseResult.baseUnit, PipelineId.Compatibility);
-    const rendered: string = oas30Client.render(transformResult.baseUnit, "application/yaml");
+    const transformResult: AMFResult = toClient.transform(parseResult.baseUnit, PipelineId.Compatibility);
+    const rendered: string = toClient.render(transformResult.baseUnit, "application/yaml");
 
     return rendered;
 }
